@@ -1,0 +1,106 @@
+uuid: c93d5bab-7018-461a-979f-1555c6c02a88
+langcode: en
+status: true
+dependencies:
+  config:
+    - eca.eca.process_dwgnchf
+id: process_dwgnchf
+label: Discount
+tags:
+  - untagged
+documentation: ''
+filename: ''
+modeldata: |
+  <?xml version="1.0" encoding="UTF-8"?>
+  <bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:qa="http://some-company/schema/bpmn/qa" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+    <bpmn2:process id="Process_dWgnCHF" name="Discount" isExecutable="true">
+      <bpmn2:task id="Activity_00zr4ne" name="msg" camunda:modelerTemplate="org.drupal.action.action_message_action">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="action_message_action" />
+          </camunda:properties>
+          <camunda:field name="message">
+            <camunda:string>Total more than 100$</camunda:string>
+          </camunda:field>
+          <camunda:field name="replace_tokens">
+            <camunda:string>no</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_0yhdpmv</bpmn2:incoming>
+      </bpmn2:task>
+      <bpmn2:sequenceFlow id="Flow_0yhdpmv" name="Total &#62; 100$" camunda:modelerTemplate="org.drupal.condition.eca_scalar" sourceRef="Event_14s5qr0" targetRef="Activity_00zr4ne">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_scalar" />
+          </camunda:properties>
+          <camunda:field name="left">
+            <camunda:string>[commerce_order:total_price]</camunda:string>
+          </camunda:field>
+          <camunda:field name="operator">
+            <camunda:string>greaterthan</camunda:string>
+          </camunda:field>
+          <camunda:field name="right">
+            <camunda:string>100</camunda:string>
+          </camunda:field>
+          <camunda:field name="type">
+            <camunda:string>value</camunda:string>
+          </camunda:field>
+          <camunda:field name="case">
+            <camunda:string>no</camunda:string>
+          </camunda:field>
+          <camunda:field name="negate">
+            <camunda:string>no</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+      </bpmn2:sequenceFlow>
+      <bpmn2:startEvent id="Event_14s5qr0" camunda:modelerTemplate="org.drupal.event.eca_commerce:checkout_completion">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_commerce:checkout_completion" />
+          </camunda:properties>
+        </bpmn2:extensionElements>
+        <bpmn2:outgoing>Flow_1cce71e</bpmn2:outgoing>
+        <bpmn2:outgoing>Flow_0yhdpmv</bpmn2:outgoing>
+      </bpmn2:startEvent>
+      <bpmn2:task id="Activity_1gthhg8" camunda:modelerTemplate="org.drupal.action.action_message_action">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="action_message_action" />
+          </camunda:properties>
+          <camunda:field name="message">
+            <camunda:string>Triger work</camunda:string>
+          </camunda:field>
+          <camunda:field name="replace_tokens">
+            <camunda:string>no</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_1cce71e</bpmn2:incoming>
+      </bpmn2:task>
+      <bpmn2:sequenceFlow id="Flow_1cce71e" sourceRef="Event_14s5qr0" targetRef="Activity_1gthhg8" />
+    </bpmn2:process>
+    <bpmndi:BPMNDiagram id="sid-16b8b3c2-14b5-4e20-ac28-64500338b0dd">
+      <bpmndi:BPMNPlane id="sid-fd978610-fd68-4d13-aef4-ebde7f40734f" bpmnElement="Process_dWgnCHF">
+        <bpmndi:BPMNShape id="Event_14s5qr0_di" bpmnElement="Event_14s5qr0">
+          <dc:Bounds x="252" y="102" width="36" height="36" />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_1gthhg8_di" bpmnElement="Activity_1gthhg8">
+          <dc:Bounds x="220" y="-100" width="100" height="80" />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_00zr4ne_di" bpmnElement="Activity_00zr4ne">
+          <dc:Bounds x="530" y="80" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNEdge id="Flow_0yhdpmv_di" bpmnElement="Flow_0yhdpmv">
+          <di:waypoint x="288" y="120" />
+          <di:waypoint x="530" y="120" />
+          <bpmndi:BPMNLabel>
+            <dc:Bounds x="381" y="103" width="61" height="14" />
+          </bpmndi:BPMNLabel>
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="Flow_1cce71e_di" bpmnElement="Flow_1cce71e">
+          <di:waypoint x="270" y="102" />
+          <di:waypoint x="270" y="-20" />
+        </bpmndi:BPMNEdge>
+      </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+  </bpmn2:definitions>

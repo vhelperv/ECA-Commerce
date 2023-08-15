@@ -1,0 +1,50 @@
+uuid: d3dfe654-ec10-4dd4-9def-a789ca0dd57e
+langcode: en
+status: true
+dependencies:
+  module:
+    - eca_base
+    - eca_commerce
+id: process_dwgnchf
+modeller: bpmn_io
+label: Discount
+version: ''
+weight: null
+events:
+  Event_14s5qr0:
+    plugin: 'eca_commerce:checkout_completion'
+    label: Event_14s5qr0
+    configuration: {  }
+    successors:
+      -
+        id: Activity_00zr4ne
+        condition: Flow_0yhdpmv
+      -
+        id: Activity_1gthhg8
+        condition: ''
+conditions:
+  Flow_0yhdpmv:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[commerce_order:total_price]'
+      right: '100'
+      operator: greaterthan
+      type: value
+gateways: {  }
+actions:
+  Activity_00zr4ne:
+    plugin: action_message_action
+    label: msg
+    configuration:
+      replace_tokens: false
+      message: 'Total more than 100$'
+    successors: {  }
+  Activity_1gthhg8:
+    plugin: action_message_action
+    label: Activity_1gthhg8
+    configuration:
+      replace_tokens: false
+      message: 'Triger work'
+    successors: {  }

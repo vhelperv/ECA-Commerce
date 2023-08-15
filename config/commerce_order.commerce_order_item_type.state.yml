@@ -1,0 +1,15 @@
+uuid: 548577bb-1737-4007-a0dc-6605589b8cc5
+langcode: en
+status: true
+dependencies:
+  module:
+    - commerce_tax
+third_party_settings:
+  commerce_tax:
+    taxable_type: physical_goods
+id: state
+label: State
+traits: {  }
+locked: false
+purchasableEntityType: commerce_product_variation
+orderType: online

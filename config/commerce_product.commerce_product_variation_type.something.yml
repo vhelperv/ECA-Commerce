@@ -1,0 +1,10 @@
+uuid: f18fcba5-5695-4614-948e-10f00a242295
+langcode: en
+status: true
+dependencies: {  }
+id: something
+label: Something
+traits: {  }
+locked: false
+orderItemType: state
+generateTitle: true

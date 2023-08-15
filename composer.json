@@ -16,9 +16,18 @@
     ],
     "require": {
         "composer/installers": "^1.9",
+        "drupal/admin_toolbar": "^3.4",
+        "drupal/bpmn_io": "^1.1",
+        "drupal/commerce": "^2.36",
         "drupal/core-composer-scaffold": "^9",
         "drupal/core-project-message": "^9",
         "drupal/core-recommended": "^9",
+        "drupal/eca": "^1.1",
+        "drupal/eca_commerce": "^1.0@alpha",
+        "drupal/gin": "^3.0@RC",
+        "drupal/scheduler": "^2.0",
+        "drupal/smtp": "^1.2",
+        "drupal/swiftmailer": "^2.4",
         "drush/drush": "^10.2"
     },
     "conflict": {
