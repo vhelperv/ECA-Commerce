@@ -11,40 +11,55 @@ label: Discount
 version: ''
 weight: null
 events:
-  Event_14s5qr0:
-    plugin: 'eca_commerce:checkout_completion'
-    label: Event_14s5qr0
+  Event_0wha3i9:
+    plugin: 'eca_commerce:order_update'
+    label: Event_0wha3i9
     configuration: {  }
     successors:
       -
-        id: Activity_00zr4ne
-        condition: Flow_0yhdpmv
-      -
-        id: Activity_1gthhg8
+        id: Gateway_1l8gcgm
         condition: ''
 conditions:
-  Flow_0yhdpmv:
+  Flow_0ajm1w6:
     plugin: eca_scalar
     configuration:
       negate: false
       case: false
-      left: '[commerce_order:total_price]'
+      left: '[commerce_order:total_price:number]'
       right: '100'
       operator: greaterthan
       type: value
-gateways: {  }
+  Flow_1npr8op:
+    plugin: eca_scalar
+    configuration:
+      case: false
+      left: '[commerce_order:total_price:number]'
+      right: '100'
+      operator: greaterthan
+      type: value
+      negate: true
+gateways:
+  Gateway_1l8gcgm:
+    type: 0
+    successors:
+      -
+        id: Activity_13p6cb7
+        condition: Flow_0ajm1w6
+      -
+        id: Activity_14pj01s
+        condition: Flow_1npr8op
 actions:
-  Activity_00zr4ne:
+  Activity_13p6cb7:
     plugin: action_message_action
-    label: msg
+    label: Activity_13p6cb7
     configuration:
       replace_tokens: false
-      message: 'Total more than 100$'
+      message: 'greater than 100'
     successors: {  }
-  Activity_1gthhg8:
+  Activity_14pj01s:
     plugin: action_message_action
-    label: Activity_1gthhg8
+    label: Activity_14pj01s
     configuration:
       replace_tokens: false
-      message: 'Triger work'
+      message: 'less than 100'
     successors: {  }

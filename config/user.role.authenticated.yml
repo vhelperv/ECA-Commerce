@@ -10,11 +10,15 @@ dependencies:
     - commerce_order
     - commerce_payment
     - commerce_product
+    - commerce_promotion
     - contact
     - filter
+    - profile
     - search
     - shortcut
     - system
+    - toolbar
+    - update
 _core:
   default_config_hash: I44QAB4es39lNzMQWiJLq2dfjX7VRSOzT_5KzAcUq_M
 id: authenticated
@@ -24,13 +28,22 @@ is_admin: false
 permissions:
   - 'access checkout'
   - 'access comments'
+  - 'access commerce_order overview'
+  - 'access commerce_product overview'
   - 'access content'
+  - 'access profile overview'
   - 'access shortcuts'
   - 'access site-wide contact form'
+  - 'access toolbar'
+  - 'create online commerce_order'
   - 'manage own commerce_payment_method'
   - 'post comments'
   - 'search content'
   - 'skip comment approval'
+  - 'update online commerce_order'
+  - 'update own commerce_promotion'
   - 'use text format basic_html'
   - 'view commerce_product'
   - 'view own commerce_order'
+  - 'view own profile'
+  - 'view update notifications'

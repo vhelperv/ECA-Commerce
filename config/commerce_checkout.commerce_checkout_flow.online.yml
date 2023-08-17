@@ -15,9 +15,34 @@ configuration:
   guest_new_account: false
   guest_new_account_notify: false
   panes:
+    contact_information:
+      step: order_information
+      weight: 0
+      double_entry: false
+    payment_information:
+      step: order_information
+      weight: 1
     review:
       step: review
+      weight: 3
+    payment_process:
+      step: payment
+      weight: 4
+      capture: true
+    completion_message:
+      step: complete
+      weight: 5
+      message:
+        value: "Your order number is [commerce_order:order_number].\r\nYou can view your order on your account page when logged in."
+        format: plain_text
+    order_summary:
+      step: _sidebar
+      weight: 6
+      view: ''
+    coupon_redemption:
+      step: order_information
       weight: 2
+      allow_multiple: false
     completion_register:
       step: _disabled
       weight: 7
@@ -27,28 +52,3 @@ configuration:
       allow_guest_checkout: true
       allow_registration: false
       registration_form_mode: register
-    contact_information:
-      step: order_information
-      weight: 0
-      double_entry: false
-    completion_message:
-      step: complete
-      weight: 4
-      message:
-        value: "Your order number is [commerce_order:order_number].\r\nYou can view your order on your account page when logged in."
-        format: plain_text
-    order_summary:
-      step: _sidebar
-      weight: 5
-      view: ''
-    payment_process:
-      step: payment
-      weight: 3
-      capture: true
-    payment_information:
-      step: order_information
-      weight: 1
-    coupon_redemption:
-      step: _disabled
-      weight: 6
-      allow_multiple: false

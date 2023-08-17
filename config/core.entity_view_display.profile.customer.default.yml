@@ -20,7 +20,7 @@ bundle: customer
 mode: default
 content:
   address:
-    type: address_default
+    type: address_plain
     label: hidden
     settings: {  }
     third_party_settings: {  }
