@@ -7,10 +7,11 @@ dependencies:
     - eca_base
     - eca_commerce
     - eca_content
+    - eca_user
 id: process_dwgnchf
 modeller: bpmn_io
 label: Discount
-version: v1
+version: ''
 weight: null
 events:
   Event_1bhry72:
@@ -42,13 +43,13 @@ actions:
     configuration:
       token_name: coupon
       type: 'commerce_promotion_coupon commerce_promotion_coupon'
-      langcode: ''
+      langcode: en
       label: ''
       published: true
       owner: ''
     successors:
       -
-        id: Activity_0alv732
+        id: Activity_169vwao
         condition: ''
       -
         id: Activity_15bs15w
@@ -290,3 +291,12 @@ actions:
       replace_tokens: false
       message: '0'
     successors: {  }
+  Activity_169vwao:
+    plugin: eca_switch_account
+    label: Activity_169vwao
+    configuration:
+      user_id: '1'
+    successors:
+      -
+        id: Activity_0alv732
+        condition: ''
