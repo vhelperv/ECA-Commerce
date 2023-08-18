@@ -3,24 +3,29 @@ langcode: en
 status: true
 dependencies:
   module:
+    - commerce_promotion
     - eca_base
     - eca_commerce
+    - eca_content
 id: process_dwgnchf
 modeller: bpmn_io
 label: Discount
-version: ''
+version: v1
 weight: null
 events:
-  Event_0wha3i9:
-    plugin: 'eca_commerce:order_update'
-    label: Event_0wha3i9
+  Event_1bhry72:
+    plugin: 'eca_commerce:checkout_completion'
+    label: 'Checkout is completion'
     configuration: {  }
     successors:
       -
-        id: Gateway_1l8gcgm
+        id: Activity_02utqtv
+        condition: Flow_0ntoyey
+      -
+        id: Activity_07viydq
         condition: ''
 conditions:
-  Flow_0ajm1w6:
+  Flow_0ntoyey:
     plugin: eca_scalar
     configuration:
       negate: false
@@ -29,37 +34,259 @@ conditions:
       right: '100'
       operator: greaterthan
       type: value
-  Flow_1npr8op:
-    plugin: eca_scalar
+gateways: {  }
+actions:
+  Activity_096a82w:
+    plugin: eca_new_entity
+    label: 'Create entity coupon as coupon'
     configuration:
-      case: false
-      left: '[commerce_order:total_price:number]'
-      right: '100'
-      operator: greaterthan
-      type: value
-      negate: true
-gateways:
-  Gateway_1l8gcgm:
-    type: 0
+      token_name: coupon
+      type: 'commerce_promotion_coupon commerce_promotion_coupon'
+      langcode: ''
+      label: ''
+      published: true
+      owner: ''
     successors:
       -
-        id: Activity_13p6cb7
-        condition: Flow_0ajm1w6
+        id: Activity_0alv732
+        condition: ''
       -
-        id: Activity_14pj01s
-        condition: Flow_1npr8op
-actions:
-  Activity_13p6cb7:
+        id: Activity_15bs15w
+        condition: ''
+  Activity_0alv732:
+    plugin: eca_set_field_value
+    label: 'Set code coupon'
+    configuration:
+      field_name: code
+      field_value: '10off-[random:number]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: coupon
+    successors:
+      -
+        id: Activity_1mbbttj
+        condition: ''
+      -
+        id: Activity_05w19hl
+        condition: ''
+  Activity_1mbbttj:
+    plugin: eca_set_field_value
+    label: 'Set status coupon'
+    configuration:
+      field_name: status.value
+      field_value: '1'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: coupon
+    successors:
+      -
+        id: Activity_0c4d87s
+        condition: ''
+      -
+        id: Activity_1vuru49
+        condition: ''
+  Activity_0c4d87s:
+    plugin: eca_set_field_value
+    label: 'Set usage limit'
+    configuration:
+      field_name: usage_limit.value
+      field_value: '1'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: coupon
+    successors:
+      -
+        id: Activity_0m5rrqn
+        condition: ''
+      -
+        id: Activity_1b4fkxe
+        condition: ''
+  Activity_0m5rrqn:
+    plugin: eca_set_field_value
+    label: 'Set usage limit customer'
+    configuration:
+      field_name: usage_limit_customer.value
+      field_value: '1'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: coupon
+    successors:
+      -
+        id: Activity_1fzvjeh
+        condition: ''
+      -
+        id: Activity_1xobvlg
+        condition: ''
+  Activity_1fzvjeh:
+    plugin: eca_set_field_value
+    label: 'Set start date'
+    configuration:
+      field_name: start_date.value
+      field_value: '[current-date:raw]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: coupon
+    successors:
+      -
+        id: Activity_0epf7nz
+        condition: ''
+      -
+        id: Activity_0zf64vz
+        condition: ''
+  Activity_02utqtv:
+    plugin: eca_token_load_entity
+    label: 'Load promotoin'
+    configuration:
+      token_name: 10off
+      from: id
+      entity_type: commerce_promotion
+      entity_id: '1'
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: ''
+    successors:
+      -
+        id: Activity_096a82w
+        condition: ''
+      -
+        id: Activity_0x79f1q
+        condition: ''
+  Activity_0epf7nz:
+    plugin: eca_set_field_value
+    label: 'Set coupon into promotion'
+    configuration:
+      field_name: promotion_id.target_id
+      field_value: '1'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: coupon
+    successors:
+      -
+        id: Activity_196k0df
+        condition: ''
+      -
+        id: Activity_0ake99n
+        condition: ''
+  Activity_196k0df:
     plugin: action_message_action
-    label: Activity_13p6cb7
+    label: 'Message "Check mail"'
     configuration:
       replace_tokens: false
-      message: 'greater than 100'
+      message: 'Congrats! You got coupon for discount -10%. Check your mail.'
+    successors:
+      -
+        id: Activity_0c3xdt0
+        condition: ''
+      -
+        id: Activity_0pssxgj
+        condition: ''
+  Activity_0c3xdt0:
+    plugin: action_send_email_action
+    label: 'Send coupon'
+    configuration:
+      replace_tokens: false
+      recipient: '[current-user:mail]'
+      subject: 'Free coupon!'
+      message: |-
+        Dear [current-user:display-name]! 
+        You have placed an order of more than $100. We have prepared a small gift for you in the form of a 10% discount coupon for your next purchase.
+
+        Coupon "[coupon:code]"
+
+        Thanks for order!!!
+    successors:
+      -
+        id: Activity_1q4dsdh
+        condition: ''
+  Activity_0x79f1q:
+    plugin: action_message_action
+    label: Activity_0x79f1q
+    configuration:
+      replace_tokens: false
+      message: '1'
     successors: {  }
-  Activity_14pj01s:
+  Activity_15bs15w:
     plugin: action_message_action
-    label: Activity_14pj01s
+    label: Activity_15bs15w
     configuration:
       replace_tokens: false
-      message: 'less than 100'
+      message: '2'
+    successors: {  }
+  Activity_05w19hl:
+    plugin: action_message_action
+    label: Activity_05w19hl
+    configuration:
+      replace_tokens: false
+      message: '3'
+    successors: {  }
+  Activity_1vuru49:
+    plugin: action_message_action
+    label: Activity_1vuru49
+    configuration:
+      replace_tokens: false
+      message: '4'
+    successors: {  }
+  Activity_1b4fkxe:
+    plugin: action_message_action
+    label: Activity_1b4fkxe
+    configuration:
+      replace_tokens: false
+      message: '5'
+    successors: {  }
+  Activity_1xobvlg:
+    plugin: action_message_action
+    label: Activity_1xobvlg
+    configuration:
+      replace_tokens: false
+      message: '6'
+    successors: {  }
+  Activity_0zf64vz:
+    plugin: action_message_action
+    label: Activity_0zf64vz
+    configuration:
+      replace_tokens: false
+      message: '7'
+    successors: {  }
+  Activity_0ake99n:
+    plugin: action_message_action
+    label: Activity_0ake99n
+    configuration:
+      replace_tokens: false
+      message: '8'
+    successors: {  }
+  Activity_0pssxgj:
+    plugin: action_message_action
+    label: Activity_0pssxgj
+    configuration:
+      replace_tokens: false
+      message: '9'
+    successors: {  }
+  Activity_1q4dsdh:
+    plugin: action_message_action
+    label: Activity_1q4dsdh
+    configuration:
+      replace_tokens: false
+      message: '10'
+    successors: {  }
+  Activity_07viydq:
+    plugin: action_message_action
+    label: Activity_07viydq
+    configuration:
+      replace_tokens: false
+      message: '0'
     successors: {  }
