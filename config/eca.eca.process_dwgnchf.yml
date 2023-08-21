@@ -7,11 +7,12 @@ dependencies:
     - eca_base
     - eca_commerce
     - eca_content
+    - eca_queue
     - eca_user
 id: process_dwgnchf
 modeller: bpmn_io
 label: Discount
-version: ''
+version: v1
 weight: null
 events:
   Event_1bhry72:
@@ -22,8 +23,25 @@ events:
       -
         id: Activity_02utqtv
         condition: Flow_0ntoyey
+  Event_0bca7qv:
+    plugin: 'eca_commerce:order_update'
+    label: 'Order update'
+    configuration: {  }
+    successors:
       -
-        id: Activity_07viydq
+        id: Activity_09ynarg
+        condition: ''
+  Event_1bs97pi:
+    plugin: 'eca_queue:processing_task'
+    label: 'Scheduled process'
+    configuration:
+      distribute: false
+      task_name: notify
+      task_value: ''
+      cron: ''
+    successors:
+      -
+        id: Activity_023farv
         condition: ''
 conditions:
   Flow_0ntoyey:
@@ -35,6 +53,15 @@ conditions:
       right: '100'
       operator: greaterthan
       type: value
+  Flow_18oqxhb:
+    plugin: eca_scalar
+    configuration:
+      case: false
+      left: '[order:checkout_step:value]'
+      right: complete
+      operator: equal
+      type: value
+      negate: true
 gateways: {  }
 actions:
   Activity_096a82w:
@@ -49,10 +76,7 @@ actions:
       owner: ''
     successors:
       -
-        id: Activity_169vwao
-        condition: ''
-      -
-        id: Activity_15bs15w
+        id: Activity_0alv732
         condition: ''
   Activity_0alv732:
     plugin: eca_set_field_value
@@ -69,9 +93,6 @@ actions:
       -
         id: Activity_1mbbttj
         condition: ''
-      -
-        id: Activity_05w19hl
-        condition: ''
   Activity_1mbbttj:
     plugin: eca_set_field_value
     label: 'Set status coupon'
@@ -86,9 +107,6 @@ actions:
     successors:
       -
         id: Activity_0c4d87s
-        condition: ''
-      -
-        id: Activity_1vuru49
         condition: ''
   Activity_0c4d87s:
     plugin: eca_set_field_value
@@ -105,9 +123,6 @@ actions:
       -
         id: Activity_0m5rrqn
         condition: ''
-      -
-        id: Activity_1b4fkxe
-        condition: ''
   Activity_0m5rrqn:
     plugin: eca_set_field_value
     label: 'Set usage limit customer'
@@ -123,9 +138,6 @@ actions:
       -
         id: Activity_1fzvjeh
         condition: ''
-      -
-        id: Activity_1xobvlg
-        condition: ''
   Activity_1fzvjeh:
     plugin: eca_set_field_value
     label: 'Set start date'
@@ -140,9 +152,6 @@ actions:
     successors:
       -
         id: Activity_0epf7nz
-        condition: ''
-      -
-        id: Activity_0zf64vz
         condition: ''
   Activity_02utqtv:
     plugin: eca_token_load_entity
@@ -160,10 +169,7 @@ actions:
       object: ''
     successors:
       -
-        id: Activity_096a82w
-        condition: ''
-      -
-        id: Activity_0x79f1q
+        id: Activity_169vwao
         condition: ''
   Activity_0epf7nz:
     plugin: eca_set_field_value
@@ -180,9 +186,6 @@ actions:
       -
         id: Activity_196k0df
         condition: ''
-      -
-        id: Activity_0ake99n
-        condition: ''
   Activity_196k0df:
     plugin: action_message_action
     label: 'Message "Check mail"'
@@ -192,9 +195,6 @@ actions:
     successors:
       -
         id: Activity_0c3xdt0
-        condition: ''
-      -
-        id: Activity_0pssxgj
         condition: ''
   Activity_0c3xdt0:
     plugin: action_send_email_action
@@ -210,93 +210,52 @@ actions:
         Coupon "[coupon:code]"
 
         Thanks for order!!!
-    successors:
-      -
-        id: Activity_1q4dsdh
-        condition: ''
-  Activity_0x79f1q:
-    plugin: action_message_action
-    label: Activity_0x79f1q
-    configuration:
-      replace_tokens: false
-      message: '1'
-    successors: {  }
-  Activity_15bs15w:
-    plugin: action_message_action
-    label: Activity_15bs15w
-    configuration:
-      replace_tokens: false
-      message: '2'
-    successors: {  }
-  Activity_05w19hl:
-    plugin: action_message_action
-    label: Activity_05w19hl
-    configuration:
-      replace_tokens: false
-      message: '3'
-    successors: {  }
-  Activity_1vuru49:
-    plugin: action_message_action
-    label: Activity_1vuru49
-    configuration:
-      replace_tokens: false
-      message: '4'
-    successors: {  }
-  Activity_1b4fkxe:
-    plugin: action_message_action
-    label: Activity_1b4fkxe
-    configuration:
-      replace_tokens: false
-      message: '5'
-    successors: {  }
-  Activity_1xobvlg:
-    plugin: action_message_action
-    label: Activity_1xobvlg
-    configuration:
-      replace_tokens: false
-      message: '6'
-    successors: {  }
-  Activity_0zf64vz:
-    plugin: action_message_action
-    label: Activity_0zf64vz
-    configuration:
-      replace_tokens: false
-      message: '7'
-    successors: {  }
-  Activity_0ake99n:
-    plugin: action_message_action
-    label: Activity_0ake99n
-    configuration:
-      replace_tokens: false
-      message: '8'
-    successors: {  }
-  Activity_0pssxgj:
-    plugin: action_message_action
-    label: Activity_0pssxgj
-    configuration:
-      replace_tokens: false
-      message: '9'
-    successors: {  }
-  Activity_1q4dsdh:
-    plugin: action_message_action
-    label: Activity_1q4dsdh
-    configuration:
-      replace_tokens: false
-      message: '10'
-    successors: {  }
-  Activity_07viydq:
-    plugin: action_message_action
-    label: Activity_07viydq
-    configuration:
-      replace_tokens: false
-      message: '0'
     successors: {  }
   Activity_169vwao:
     plugin: eca_switch_account
-    label: Activity_169vwao
+    label: 'Switch current account to admin'
     configuration:
       user_id: '1'
     successors:
       -
-        id: Activity_0alv732
+        id: Activity_096a82w
         condition: ''
+  Activity_09ynarg:
+    plugin: eca_token_load_entity
+    label: 'Load order'
+    configuration:
+      token_name: order
+      from: current
+      entity_type: commerce_order
+      entity_id: ''
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: commerce_order
+    successors:
+      -
+        id: Activity_1jkswt7
+        condition: Flow_18oqxhb
+  Activity_1jkswt7:
+    plugin: eca_enqueue_task_delayed
+    label: 'Scheduled task'
+    configuration:
+      delay_value: '15'
+      delay_unit: '1'
+      task_name: notify
+      task_value: ''
+      tokens: order
+    successors: {  }
+  Activity_023farv:
+    plugin: action_send_email_action
+    label: 'Send mail'
+    configuration:
+      replace_tokens: false
+      recipient: '[current-user:mail]'
+      subject: 'Order don''t completed'
+      message: |-
+        Please complete your order 	[order:order_id] 
+        Link to order - [order:url]
+    successors: {  }
