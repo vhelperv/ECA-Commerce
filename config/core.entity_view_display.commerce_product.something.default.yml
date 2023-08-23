@@ -9,7 +9,88 @@ dependencies:
   module:
     - commerce_product
     - image
+    - layout_builder
+    - layout_discovery
     - text
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: false
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components:
+          f7c9097f-e7e3-4476-b606-4dbb78daf34a:
+            uuid: f7c9097f-e7e3-4476-b606-4dbb78daf34a
+            region: content
+            configuration:
+              id: 'field_block:commerce_product:something:field_image'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: image
+                label: hidden
+                settings:
+                  image_link: ''
+                  image_style: ''
+                  image_loading:
+                    attribute: lazy
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+          d7cf0f7b-d86a-4025-b3d6-79d3c1b40c53:
+            uuid: d7cf0f7b-d86a-4025-b3d6-79d3c1b40c53
+            region: content
+            configuration:
+              id: 'field_block:commerce_product:something:body'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+          baa3b41e-903f-48b7-9a2b-71e36431dc49:
+            uuid: baa3b41e-903f-48b7-9a2b-71e36431dc49
+            region: content
+            configuration:
+              id: 'field_block:commerce_product:something:variations'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: commerce_add_to_cart
+                label: hidden
+                settings:
+                  combine: true
+                third_party_settings: {  }
+            weight: 4
+            additional: {  }
+          8f1cbc92-c675-45f9-9b55-7e2d0b5890c5:
+            uuid: 8f1cbc92-c675-45f9-9b55-7e2d0b5890c5
+            region: content
+            configuration:
+              id: 'field_block:commerce_product_variation:something:price'
+              label: Price
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: '@commerce_product.product_variation_route_context:commerce_product_variation'
+                view_mode: view_mode
+              formatter:
+                type: commerce_price_plain
+                label: inline
+                settings: {  }
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
+        third_party_settings: {  }
 id: commerce_product.something.default
 targetEntityType: commerce_product
 bundle: something

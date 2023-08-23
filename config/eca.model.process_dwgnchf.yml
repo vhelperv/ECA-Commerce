@@ -292,13 +292,13 @@ modeldata: |
             <camunda:property name="pluginid" value="action_send_email_action" />
           </camunda:properties>
           <camunda:field name="recipient">
-            <camunda:string>[current-user:mail]</camunda:string>
+            <camunda:string>[commerce_order:uid:entity:mail]</camunda:string>
           </camunda:field>
           <camunda:field name="subject">
             <camunda:string>Free coupon!</camunda:string>
           </camunda:field>
           <camunda:field name="message">
-            <camunda:string>Dear [current-user:display-name]! 
+            <camunda:string>Dear [commerce_order:uid:entity:display-name]! 
   You have placed an order of more than $100. We have prepared a small gift for you in the form of a 10% discount coupon for your next purchase.
 
   Coupon "[coupon:code]"
@@ -353,14 +353,6 @@ modeldata: |
       <bpmn2:sequenceFlow id="Flow_0qnm78u" sourceRef="Activity_02utqtv" targetRef="Activity_169vwao" />
       <bpmn2:sequenceFlow id="Flow_1tliaui" sourceRef="Activity_169vwao" targetRef="Activity_096a82w" />
       <bpmn2:sequenceFlow id="Flow_1cic3xz" sourceRef="Activity_096a82w" targetRef="Activity_0alv732" />
-      <bpmn2:startEvent id="Event_0bca7qv" name="Order update" camunda:modelerTemplate="org.drupal.event.eca_commerce:order_update">
-        <bpmn2:extensionElements>
-          <camunda:properties>
-            <camunda:property name="pluginid" value="eca_commerce:order_update" />
-          </camunda:properties>
-        </bpmn2:extensionElements>
-        <bpmn2:outgoing>Flow_0qpusi3</bpmn2:outgoing>
-      </bpmn2:startEvent>
       <bpmn2:startEvent id="Event_1bs97pi" name="Scheduled process" camunda:modelerTemplate="org.drupal.event.eca_queue:processing_task">
         <bpmn2:extensionElements>
           <camunda:properties>
@@ -481,8 +473,8 @@ modeldata: |
             <camunda:string>Order don't completed</camunda:string>
           </camunda:field>
           <camunda:field name="message">
-            <camunda:string>Please complete your order 	[order:order_id] 
-  Link to order - [order:url]</camunda:string>
+            <camunda:string>Please complete your order.
+  Link to cart - https://probe-camel-advocate-annie.trycloudflare.com/cart</camunda:string>
           </camunda:field>
           <camunda:field name="replace_tokens">
             <camunda:string>no</camunda:string>
@@ -491,6 +483,14 @@ modeldata: |
         <bpmn2:incoming>Flow_04pqwyi</bpmn2:incoming>
       </bpmn2:task>
       <bpmn2:sequenceFlow id="Flow_04pqwyi" sourceRef="Event_1bs97pi" targetRef="Activity_023farv" />
+      <bpmn2:startEvent id="Event_0bca7qv" name="Order insert" camunda:modelerTemplate="org.drupal.event.eca_commerce:order_insert">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_commerce:order_insert" />
+          </camunda:properties>
+        </bpmn2:extensionElements>
+        <bpmn2:outgoing>Flow_0qpusi3</bpmn2:outgoing>
+      </bpmn2:startEvent>
     </bpmn2:process>
     <bpmndi:BPMNDiagram id="sid-16b8b3c2-14b5-4e20-ac28-64500338b0dd">
       <bpmndi:BPMNPlane id="sid-fd978610-fd68-4d13-aef4-ebde7f40734f" bpmnElement="Process_dWgnCHF">
@@ -544,12 +544,6 @@ modeldata: |
           <dc:Bounds x="-530" y="480" width="100" height="80" />
           <bpmndi:BPMNLabel />
         </bpmndi:BPMNShape>
-        <bpmndi:BPMNShape id="Event_0bca7qv_di" bpmnElement="Event_0bca7qv">
-          <dc:Bounds x="-798" y="622" width="36" height="36" />
-          <bpmndi:BPMNLabel>
-            <dc:Bounds x="-811" y="665" width="65" height="14" />
-          </bpmndi:BPMNLabel>
-        </bpmndi:BPMNShape>
         <bpmndi:BPMNShape id="Event_1bs97pi_di" bpmnElement="Event_1bs97pi">
           <dc:Bounds x="-798" y="742" width="36" height="36" />
           <bpmndi:BPMNLabel>
@@ -567,6 +561,12 @@ modeldata: |
         <bpmndi:BPMNShape id="Activity_023farv_di" bpmnElement="Activity_023farv">
           <dc:Bounds x="-660" y="720" width="100" height="80" />
           <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Event_10gr1a6_di" bpmnElement="Event_0bca7qv">
+          <dc:Bounds x="-798" y="622" width="36" height="36" />
+          <bpmndi:BPMNLabel>
+            <dc:Bounds x="-809" y="658" width="59" height="14" />
+          </bpmndi:BPMNLabel>
         </bpmndi:BPMNShape>
         <bpmndi:BPMNEdge id="Flow_0ub1sy5_di" bpmnElement="Flow_0ub1sy5">
           <di:waypoint x="-170" y="520" />

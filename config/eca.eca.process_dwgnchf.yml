@@ -23,14 +23,6 @@ events:
       -
         id: Activity_02utqtv
         condition: Flow_0ntoyey
-  Event_0bca7qv:
-    plugin: 'eca_commerce:order_update'
-    label: 'Order update'
-    configuration: {  }
-    successors:
-      -
-        id: Activity_09ynarg
-        condition: ''
   Event_1bs97pi:
     plugin: 'eca_queue:processing_task'
     label: 'Scheduled process'
@@ -42,6 +34,14 @@ events:
     successors:
       -
         id: Activity_023farv
+        condition: ''
+  Event_0bca7qv:
+    plugin: 'eca_commerce:order_insert'
+    label: 'Order insert'
+    configuration: {  }
+    successors:
+      -
+        id: Activity_09ynarg
         condition: ''
 conditions:
   Flow_0ntoyey:
@@ -201,10 +201,10 @@ actions:
     label: 'Send coupon'
     configuration:
       replace_tokens: false
-      recipient: '[current-user:mail]'
+      recipient: '[commerce_order:uid:entity:mail]'
       subject: 'Free coupon!'
       message: |-
-        Dear [current-user:display-name]! 
+        Dear [commerce_order:uid:entity:display-name]! 
         You have placed an order of more than $100. We have prepared a small gift for you in the form of a 10% discount coupon for your next purchase.
 
         Coupon "[coupon:code]"
@@ -256,6 +256,6 @@ actions:
       recipient: '[order:uid:entity:mail]'
       subject: 'Order don''t completed'
       message: |-
-        Please complete your order 	[order:order_id] 
-        Link to order - [order:url]
+        Please complete your order.
+        Link to cart - https://probe-camel-advocate-annie.trycloudflare.com/cart
     successors: {  }
