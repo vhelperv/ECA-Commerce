@@ -405,7 +405,7 @@ modeldata: |
             <camunda:string>_interface</camunda:string>
           </camunda:field>
           <camunda:field name="latest_revision">
-            <camunda:string>no</camunda:string>
+            <camunda:string>yes</camunda:string>
           </camunda:field>
           <camunda:field name="unchanged">
             <camunda:string>no</camunda:string>
@@ -436,7 +436,7 @@ modeldata: |
             <camunda:string>order</camunda:string>
           </camunda:field>
           <camunda:field name="delay_value">
-            <camunda:string>15</camunda:string>
+            <camunda:string>60</camunda:string>
           </camunda:field>
           <camunda:field name="delay_unit">
             <camunda:string>1</camunda:string>
@@ -444,19 +444,19 @@ modeldata: |
         </bpmn2:extensionElements>
         <bpmn2:incoming>Flow_18oqxhb</bpmn2:incoming>
       </bpmn2:task>
-      <bpmn2:sequenceFlow id="Flow_18oqxhb" name="Compare state [Complete]" camunda:modelerTemplate="org.drupal.condition.eca_scalar" sourceRef="Activity_09ynarg" targetRef="Activity_1jkswt7">
+      <bpmn2:sequenceFlow id="Flow_18oqxhb" name="Compare checkout flow [NULL]" camunda:modelerTemplate="org.drupal.condition.eca_scalar" sourceRef="Activity_09ynarg" targetRef="Activity_1jkswt7">
         <bpmn2:extensionElements>
           <camunda:properties>
             <camunda:property name="pluginid" value="eca_scalar" />
           </camunda:properties>
           <camunda:field name="left">
-            <camunda:string>[order:checkout_step:value]</camunda:string>
+            <camunda:string>[order:checkout_flow:target_id]</camunda:string>
           </camunda:field>
           <camunda:field name="operator">
             <camunda:string>equal</camunda:string>
           </camunda:field>
           <camunda:field name="right">
-            <camunda:string>complete</camunda:string>
+            <camunda:string>online</camunda:string>
           </camunda:field>
           <camunda:field name="type">
             <camunda:string>value</camunda:string>
@@ -475,7 +475,7 @@ modeldata: |
             <camunda:property name="pluginid" value="action_send_email_action" />
           </camunda:properties>
           <camunda:field name="recipient">
-            <camunda:string>[current-user:mail]</camunda:string>
+            <camunda:string>[order:uid:entity:mail]</camunda:string>
           </camunda:field>
           <camunda:field name="subject">
             <camunda:string>Order don't completed</camunda:string>
@@ -623,7 +623,7 @@ modeldata: |
           <di:waypoint x="-560" y="640" />
           <di:waypoint x="-400" y="640" />
           <bpmndi:BPMNLabel>
-            <dc:Bounds x="-515" y="606" width="73" height="27" />
+            <dc:Bounds x="-514" y="590" width="67" height="40" />
           </bpmndi:BPMNLabel>
         </bpmndi:BPMNEdge>
         <bpmndi:BPMNEdge id="Flow_04pqwyi_di" bpmnElement="Flow_04pqwyi">

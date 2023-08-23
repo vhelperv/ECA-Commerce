@@ -57,8 +57,8 @@ conditions:
     plugin: eca_scalar
     configuration:
       case: false
-      left: '[order:checkout_step:value]'
-      right: complete
+      left: '[order:checkout_flow:target_id]'
+      right: online
       operator: equal
       type: value
       negate: true
@@ -231,7 +231,7 @@ actions:
       revision_id: ''
       properties: ''
       langcode: _interface
-      latest_revision: false
+      latest_revision: true
       unchanged: false
       object: commerce_order
     successors:
@@ -242,7 +242,7 @@ actions:
     plugin: eca_enqueue_task_delayed
     label: 'Scheduled task'
     configuration:
-      delay_value: '15'
+      delay_value: '60'
       delay_unit: '1'
       task_name: notify
       task_value: ''
@@ -253,7 +253,7 @@ actions:
     label: 'Send mail'
     configuration:
       replace_tokens: false
-      recipient: '[current-user:mail]'
+      recipient: '[order:uid:entity:mail]'
       subject: 'Order don''t completed'
       message: |-
         Please complete your order 	[order:order_id] 
